@@ -17,7 +17,7 @@
             <h1>Traffic Data Visualization</h1>
             <div class="filter-container">
 
-                <label>Wochentag_ID:</label>
+                <label>Wochentag:</label>
                 <select id="Wochentag_ID">
                     <option value="">All</option>
                     <option value="1">Monday</option>
@@ -28,24 +28,24 @@
                     <option value="6">Saturday</option>
                     <option value="7">Sunday</option>
                 </select>
-                <label>Gender (Geschlecht_ID - Single-select):</label>
+                <label>Geschlecht :</label>
                 <input type="radio" name="Geschlecht_ID" value="" checked> All
                 <input type="radio" name="Geschlecht_ID" value="1"> männlich
                 <input type="radio" name="Geschlecht_ID" value="2"> weiblich
 
-                <label>Traffic Type (Verkehrsart_ID):</label>
+                <label>Verkehrsart :</label>
                 <select id="Verkehrsart_ID">
                     <option value="">All</option>
-                    <option value="1">Fußgänger (Pedestrian)</option>
-                    <option value="2">Fahrrad (Bicycle)</option>
-                    <option value="3">Einspurige Kfz (Single-track Vehicle)</option>
-                    <option value="4">Pkw (Car)</option>
-                    <option value="5">Lkw > 3,5t (Truck > 3.5t)</option>
-                    <option value="99">Sonstige (Others)</option>
+                    <option value="1">Fußgänger </option>
+                    <option value="2">Fahrrad </option>
+                    <option value="3">Einspurige Kfz </option>
+                    <option value="4">Pkw </option>
+                    <option value="5">Lkw > 3,5t </option>
+                    <option value="99">Sonstige </option>
                 </select>
 
 
-                <button>Filter</button>
+                <button id="applyFiltersButton">Filter</button>
             </div>
             <div class="chart-container">
                 <canvas class="chart-box" id="trafficChart"></canvas>
@@ -56,6 +56,6 @@
 
 </body>
 
-<script async src="assets/index.js"></script>
+<script  src="assets/index.js"></script>
 
 </html>
