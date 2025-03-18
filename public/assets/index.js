@@ -67,20 +67,15 @@
 
     function applyFilters() { 
         let filteredData = rawData.filter(entry => {
-            // Handle Wochentag_ID (multi-select)
             const selectedWochentagIDs = Array.from(document.getElementById("Wochentag_ID")?.selectedOptions || []).map(opt => opt.value);
             const wochentagMatch = selectedWochentagIDs.length === 0 || selectedWochentagIDs.includes("") || selectedWochentagIDs.includes(entry.Wochentag_ID);
     
-            // Handle Verkehrsart_ID (multi-select)
             const selectedVerkehrsartIDs = Array.from(document.getElementById("Verkehrsart_ID")?.selectedOptions || []).map(opt => opt.value);
             const verkehrsartMatch = selectedVerkehrsartIDs.length === 0 || selectedVerkehrsartIDs.includes("") || selectedVerkehrsartIDs.includes(entry.Verkehrsart_ID);
     
-            // Handle Geschlecht_ID (radio buttons)
             const selectedGeschlechtID = document.querySelector("input[name='Geschlecht_ID']:checked")?.value || "";
             const geschlechtMatch = selectedGeschlechtID === "" || entry.Geschlecht_ID == selectedGeschlechtID;
-    
-            // Combine all conditions
-            
+                
             return wochentagMatch && verkehrsartMatch && geschlechtMatch;
         });
         createChart(filteredData);
