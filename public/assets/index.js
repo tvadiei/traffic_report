@@ -10,7 +10,6 @@
         "8": "Vorarlberg",
         "9": "Wien"
     };
-
     const stateColors = {
         "1": {
             bg: "rgba(0, 51, 153, 0.5)",
@@ -64,23 +63,32 @@
             return [];
         }
     }
-
-    function applyFilters() { 
+    function applyFilters() {
         let filteredData = rawData.filter(entry => {
-            const selectedWochentagIDs = Array.from(document.getElementById("Wochentag_ID")?.selectedOptions || []).map(opt => opt.value);
+            const selectedWochentagIDs = Array.from(document.getElementById("Wochentag_ID") ? .selectedOptions || []).map(opt => opt.value);
             const wochentagMatch = selectedWochentagIDs.length === 0 || selectedWochentagIDs.includes("") || selectedWochentagIDs.includes(entry.Wochentag_ID);
-    
-            const selectedVerkehrsartIDs = Array.from(document.getElementById("Verkehrsart_ID")?.selectedOptions || []).map(opt => opt.value);
+
+            const selectedVerkehrsartIDs = Array.from(document.getElementById("Verkehrsart_ID") ? .selectedOptions || []).map(opt => opt.value);
             const verkehrsartMatch = selectedVerkehrsartIDs.length === 0 || selectedVerkehrsartIDs.includes("") || selectedVerkehrsartIDs.includes(entry.Verkehrsart_ID);
-    
-            const selectedGeschlechtID = document.querySelector("input[name='Geschlecht_ID']:checked")?.value || "";
+
+            const selectedGeschlechtID = document.querySelector("input[name='Geschlecht_ID']:checked") ? .value || "";
             const geschlechtMatch = selectedGeschlechtID === "" || entry.Geschlecht_ID == selectedGeschlechtID;
-                
-            return wochentagMatch && verkehrsartMatch && geschlechtMatch;
+
+            const selectedMonthIDs = Array.from(document.querySelectorAll("#Monat_ID input[type='checkbox']:checked"))
+                .map(checkbox => checkbox.value);
+            const monthMatch = selectedMonthIDs.length === 0 || selectedMonthIDs.includes(entry.Monat_ID);
+
+            return wochentagMatch && verkehrsartMatch && geschlechtMatch && monthMatch;
         });
         createChart(filteredData);
     }
+    async function toggleAllMonths(selectAllCheckbox) {
 
+        const checkboxes = document.querySelectorAll("#Monat_ID input[type='checkbox']");
+
+        checkboxes.forEach(checkbox => checkbox.checked = selectAllCheckbox.checked);
+
+    }
     async function createChart(data) {
         const aggregatedData = {};
         const years = new Set();
@@ -108,8 +116,8 @@
         const datasets = Object.keys(aggregatedData).map(stateID => ({
             label: bundeslandMap[stateID] || `Bundesland ${stateID}`,
             data: targetYears.map(year => aggregatedData[stateID][year] || 0),
-            backgroundColor: stateColors[stateID]?.bg || "rgba(255, 215, 0, 0.5)",
-            borderColor: stateColors[stateID]?.border || "#FFD700",
+            backgroundColor: stateColors[stateID] ? .bg || "rgba(255, 215, 0, 0.5)",
+            borderColor: stateColors[stateID] ? .border || "#FFD700",
             borderWidth: 1,
             fill: true
         }));
@@ -131,32 +139,61 @@
                 maintainAspectRatio: false,
                 plugins: {
                     legend: {
-                        position: "top"
+                        position: "top",
+                        labels: {
+                            font: {
+                                size: 12
+                            }
+                        }
                     },
                     title: {
                         display: true,
-                        text: "Traffic Accidents Statistics"
+                        text: "Getötete im Straßenverkehr in Österreich nach Bundesland und Berichtsjahr",
+                        font: {
+                            size: 18
+                        }
                     },
                     datalabels: {
+                        display: true,
                         anchor: "end",
                         align: "top",
-                        formatter: (value) => value > 0 ? value : "",
+                        formatter: (value) => {
+                            return value > 20 ? value : "";
+                        },
                         font: {
-                            weight: "bold"
-                        }
+                            weight: "bold",
+                            size: 10,
+                        },
+                        color: "black",
                     }
                 },
                 scales: {
                     x: {
                         title: {
                             display: true,
-                            text: "Year of accident"
+                            text: "Berichtsjahr",
+                            font: {
+                                size: 14
+                            }
+                        },
+                        ticks: {
+                            font: {
+                                size: 12
+                            }
                         }
                     },
                     y: {
                         title: {
                             display: true,
-                            text: "numbers"
+                            text: "Getötete ",
+                            font: {
+                                size: 14
+                            }
+                        },
+                        ticks: {
+                            font: {
+                                size: 12
+                            }
                         },
                         stacked: true
                     }
@@ -171,6 +208,10 @@
 
         document.getElementById("applyFiltersButton").addEventListener("click", () => {
             applyFilters();
+        });
+
+        document.getElementById("selectAllMonths").addEventListener("click", () => {
+            toggleAllMonths(document.getElementById("selectAllMonths"));
         });
     });
 })();
