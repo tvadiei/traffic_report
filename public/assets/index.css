@@ -38,7 +38,6 @@ input[type='radio'] {
     display: grid;
     grid-template-columns: 1fr;
     gap: 10px;
-    padding: 10px;
 }
 
 .content {
@@ -46,16 +45,17 @@ input[type='radio'] {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 100%;
+    width: 90%;
     height: 100%;
     margin: 0 auto;
 }
 
 .chart-container {
-    width: 80%; 
-    height: 80%;
+    width: 100%; 
+    height: 100%;
     margin: 0 auto;
-    padding: 20px;
+    display: flex;
+    justify-content: center;
 }
 
 .chart-box {
@@ -97,7 +97,7 @@ button {
 }
 .filter-button {
     display: block;
-    width: 50%;
+    width: 100%;
     padding: 10px;
     background: #007bff;
     color: white;
